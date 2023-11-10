@@ -88,6 +88,22 @@ describe('Fonction flatMap de lodash', () => {
     });
 });
 
+describe('Fonction max de lodash', () => {
+    // Cas nominal
+    test('devrait retourner la valeur maximale d\'un tableau', () => {
+        const tableau = [1, 2, 3, 4, 5];
+        const max = _.max(tableau);
+        expect(max).toEqual(5);
+    });
+
+    // Cas limite
+    test('devrait gérer un tableau vide', () => {
+        const tableau = [];
+        const max = _.max(tableau);
+        expect(max).toEqual(undefined);
+    });
+});
+
 describe('Fonction maxBy de lodash', () => {
     // Cas nominal
     test('devrait retourner la valeur maximale d\'un tableau', () => {
@@ -109,7 +125,7 @@ describe('Fonction pipe de lodash', () => {
     test('devrait retourner le résultat de l\'application d\'une fonction à une valeur', () => {
         const doubler = (x) => x * 2;
         const tripler = (x) => x * 3;
-        const pipe = _.flow(doubler, tripler); // Utiliser _.flow au lieu de _.pipe
+        const pipe = _.flow(doubler, tripler);
         const resultat = pipe(5);
         expect(resultat).toEqual(30);
     });
@@ -117,26 +133,8 @@ describe('Fonction pipe de lodash', () => {
     // Cas limite
     test('devrait gérer une fonction vide', () => {
         const doubler = (x) => x * 2;
-        const pipe = _.flow(doubler); // Utiliser _.flow au lieu de _.pipe
+        const pipe = _.flow(doubler);
         const resultat = pipe(5);
         expect(resultat).toEqual(10);
     });
 });
-
-/*
-describe('Fonction max de lodash', () => {
-    // Cas nominal
-    test('devrait retourner la valeur maximale d\'un tableau', () => {
-        const tableau = [1, 2];
-        const max = _.max(tableau);
-        expect(max).toEqual(2);
-    });
-
-    // Cas limite
-    test('devrait gérer un tableau vide', () => {
-        const tableau = [];
-        const max = _.max(tableau);
-        expect(max).toEqual(-Infinity);
-    });
-});
-*/
