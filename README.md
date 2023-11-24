@@ -28,3 +28,6 @@ Trouver un user grâce à son id :
 curl -X POST -H "Content-Type: application/json" -d "{\"username\": \"newuser\", \"email\": \"newuser@example.com\"}" http://localhost:3000/users/add
 
 ![id](image-2.png)
+
+Comment appelle-t-on le fait de modifier le code sans modifier son comportement, afin d’en améliorer certaines propriétés ?
+Le refactoring est le processus de modification du code source sans changer son comportement externe afin d'améliorer sa structure interne. L'objectif principal du refactoring est d'améliorer la qualité du code, facilitant ainsi sa compréhension, sa maintenance et son évolution.
