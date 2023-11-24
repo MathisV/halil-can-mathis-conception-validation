@@ -1,9 +1,9 @@
 // routes/users.js
 const express = require('express');
 const router = express.Router();
-const users = require('./usersData'); // Assurez-vous que le chemin est correct
+const users = require('./usersData'); // Make sure the path is correct
 
-// Endpoint pour récupérer la liste des utilisateurs
+// Endpoint to retrieve the list of users
 router.get('/', function (req, res, next) {
     try {
         res.json(users);
@@ -13,30 +13,33 @@ router.get('/', function (req, res, next) {
     }
 });
 
-// Endpoint pour ajouter un utilisateur
+// Endpoint to add a user
 router.post('/add', function (req, res, next) {
     try {
         console.log('Request received at /users/add', req.body);
         const newUser = req.body;
 
-        // Vérification du type de newUser
+        // Check the type of newUser
         if (typeof newUser === 'object' && newUser !== null) {
-            // Vérification des propriétés obligatoires
+            // Check for required properties
             if ('username' in newUser && 'email' in newUser) {
-                // Vérification du format de l'e-mail
+                // Check email format
                 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-                // vérification si doublon de l'e-mail
+                // Check for email and username duplicates
                 const emailExists = users.some((user) => user.email === newUser.email);
-                // vérification si doublon du username
                 const usernameExists = users.some((user) => user.username === newUser.username);
 
-                // Vérification de l'username (lettres et '-')
+                // Check username format (letters and '-')
                 const usernameRegex = /^[a-zA-Z-]+$/;
 
                 if (emailRegex.test(newUser.email) && usernameRegex.test(newUser.username) && !emailExists && !usernameExists) {
+                    // Assign a unique ID based on the user's index
+                    const userId = users.length + 1;
+                    newUser.id = userId;
+
                     users.push(newUser);
-                    res.json({ message: 'User added successfully', users });
+                    res.json({ message: 'User added successfully', user: newUser });
                 } else {
                     res.status(400).json({ error: 'Bad Request', details: 'Invalid email or username format' });
                 }
@@ -49,6 +52,18 @@ router.post('/add', function (req, res, next) {
     } catch (error) {
         console.error('Error adding user:', error);
         res.status(500).json({ error: 'Internal Server Error', details: error.message });
+    }
+});
+
+// Endpoint to retrieve a specific user by ID
+router.get('/:id', function (req, res, next) {
+    const userId = parseInt(req.params.id);
+    const user = users.find((user) => user.id === userId);
+
+    if (user) {
+        res.json(user);
+    } else {
+        res.status(404).json({ error: 'Not Found', details: 'User not found' });
     }
 });
 

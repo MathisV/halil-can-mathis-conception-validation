@@ -24,5 +24,7 @@ curl http://localhost:3000/users
 Essayez d’insérer le chiffre 5 dans votre tableau. Que se passe-t-il ? Est-ce un problème ?
 Le problème qu'on peut rencontrer en essayant d'insérer le chiffre 5 dans le tableau est lié au fait qu'on stocke des objets d'utilisateur dans le tableau, mais le chiffre 5 est un nombre.
 
-Où on s'est arrété :
-slide : Conception : amélioration du code
+Trouver un user grâce à son id : 
+curl -X POST -H "Content-Type: application/json" -d "{\"username\": \"newuser\", \"email\": \"newuser@example.com\"}" http://localhost:3000/users/add
+
+![id](image-2.png)
