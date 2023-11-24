@@ -26,10 +26,15 @@ router.post('/add', function (req, res, next) {
                 // Vérification du format de l'e-mail
                 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+                // vérification si doublon de l'e-mail
+                const emailExists = users.some((user) => user.email === newUser.email);
+                // vérification si doublon du username
+                const usernameExists = users.some((user) => user.username === newUser.username);
+
                 // Vérification de l'username (lettres et '-')
                 const usernameRegex = /^[a-zA-Z-]+$/;
 
-                if (emailRegex.test(newUser.email) && usernameRegex.test(newUser.username)) {
+                if (emailRegex.test(newUser.email) && usernameRegex.test(newUser.username) && !emailExists && !usernameExists) {
                     users.push(newUser);
                     res.json({ message: 'User added successfully', users });
                 } else {
