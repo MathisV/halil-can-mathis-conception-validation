@@ -39,4 +39,14 @@ describe('POST /users/add', () => {
         expect(users.body[0].username).toBe('John')
         expect(users.body[0].email).toBe('johndoe@yopmail.com')
     })
+
+    it("shouldn't post a user already who already exist", async () => {
+        const response = await supertest(app)
+            .post('/users/add')
+            .send({ username: 'John', email: 'johndoe@yopmail.com'})
+        expect(response.status).toBe(400)
+        expect(response.body.error).toBe('Bad Request')
+        expect(response.body.details).toBe('Invalid email or username format')
+    })
 })
+
