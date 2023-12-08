@@ -1,5 +1,7 @@
 const supertest = require('supertest');
 const app = require('../app');
+const users = require('../routes/usersData');
+const { isValidUserObject, userExists, validateUserData, addUser, findUserById } = require('../routes/UserRepository');
 
 describe('POST /users/', () => {
     it('should handle invalid user data', async () => {
@@ -50,3 +52,37 @@ describe('POST /users/', () => {
     })
 })
 
+describe('User Management Tests', () => {
+
+    test('isValidUserObject returns true for valid user object', () => {
+        const user = { username: 'testuser', email: 'test@test.com' };
+        const result = isValidUserObject(user);
+        expect(result).toBe(true);
+    });
+
+    test('userExists returns false for a new user', () => {
+        const user = { username: 'newuser', email: 'newuser@test.com' };
+        const result = userExists(user);
+        expect(result).toBe(false);
+    });
+
+    test('validateUserData returns true for valid user data', () => {
+        const user = { username: 'validuser', email: 'valid@test.com' };
+        const result = validateUserData(user);
+        expect(result).toBe(true);
+    });
+
+    test('addUser adds a user to the users array', () => {
+        const user = { username: 'adduser', email: 'adduser@test.com' };
+        addUser(user);
+        expect(users).toContain(user);
+    });
+
+    test('findUserById returns a user for a valid ID', () => {
+        const user = { id: 1, username: 'John', email: 'johndoe@yopmail.com' };
+        users.push(user);
+        const result = findUserById(1);
+        expect(result).toEqual(user);
+    });
+
+});
