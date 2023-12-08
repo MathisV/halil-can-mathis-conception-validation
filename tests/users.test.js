@@ -1,10 +1,10 @@
 const supertest = require('supertest');
 const app = require('../app');
 
-describe('POST /users/add', () => {
+describe('POST /users/', () => {
     it('should handle invalid user data', async () => {
         const response = await supertest(app)
-            .post('/users/add')
+            .post('/users/')
             .send({ invalidData: 'test' });
 
         expect(response.status).toBe(400);
@@ -13,10 +13,10 @@ describe('POST /users/add', () => {
     });
 });
 
-describe('POST /users/add', () => {
+describe('POST /users/', () => {
     it('should handle invalid user data', async () => {
         const response = await supertest(app)
-            .post('/users/add')
+            .post('/users/')
             .send({ username: 'test', email: 'test' });
 
         expect(response.status).toBe(400);
@@ -25,10 +25,10 @@ describe('POST /users/add', () => {
     });
 });
 
-describe('POST /users/add', () => {
+describe('POST /users/', () => {
     it("should post a new user and get it on /users", async () => {
         const response = await supertest(app)
-            .post('/users/add')
+            .post('/users/')
             .send({ username: 'John', email: 'johndoe@yopmail.com'})
         expect(response.status).toBe(200)
         expect(response.body.message).toBe('User added successfully')
@@ -42,11 +42,11 @@ describe('POST /users/add', () => {
 
     it("shouldn't post a user already who already exist", async () => {
         const response = await supertest(app)
-            .post('/users/add')
+            .post('/users/')
             .send({ username: 'John', email: 'johndoe@yopmail.com'})
         expect(response.status).toBe(400)
         expect(response.body.error).toBe('Bad Request')
-        expect(response.body.details).toBe('Invalid email or username format')
+        expect(response.body.details).toBe('Email or username already exists')
     })
 })
 
